@@ -869,6 +869,7 @@
 .loader-hint {
   margin-top: 20px;
   font-size: 14px;
+  font-family: 'Montserrat', sans-serif;
   color: #fff;
   text-align: center;
 }
@@ -1010,4 +1011,59 @@
     transform: scale(0.65) translateX(75%);
   }
 }
-
+/* Base (mobile first) */
+.title_mainHomeBanner {
+  font-size: 2.28rem;
+}
+.text_mainHomeBanner {
+  font-size: 1rem;
+}
+.inputancientAI {
+  width: 100%;
+  font-size: 12px;
+}
+.card_mainHomeBanner {
+  max-width: 90%;
+  min-width: 90%;
+}
+/* Media Queries */
+@media (min-width: 1200px) {
+  .title_mainHomeBanner {
+    font-size: 4rem;
+  }
+}
+@media (min-width: 1024px) {
+  .title_mainHomeBanner {
+    font-size: 3.5rem;
+  }
+  .text_mainHomeBanner {
+    font-size: 1.2rem;
+  }
+  .inputancientAI {
+    width: 70vw; 
+  }
+}
+@media (min-width: 768px) {
+  .title_mainHomeBanner {
+    font-size: 3.05rem;
+  }
+  .text_mainHomeBanner {
+    font-size: 1rem;
+  }
+  .inputancientAI {
+    width: 70vw;
+    font-size: 16px;
+  }
+}
+@media (min-width: 480px) {
+  .title_mainHomeBanner {
+    font-size: 2.645rem;
+  }
+  .text_mainHomeBanner {
+    font-size: 0.855rem; 
+  }
+  .inputancientAI {
+    width: 70vw;
+    font-size: 14px;
+  }
+}
