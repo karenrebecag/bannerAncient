@@ -189,35 +189,29 @@
     </section>
     <!-- FIN ESTADO INICIAL -->
 
-    <!-- ESTADO LOADING -->
-    <section id="banner-loading" class="state-section state-loading">
-      <div class="card_mainHomeBanner">
-        <div class="content_mainHomeBanner" style="align-items: center; position: relative;">
-          <!-- Loader animado -->
-          <div class="loader">
-            <div class="circle">
-              <div class="dot"></div>
-              <div class="outline"></div>
-            </div>
-            <div class="circle">
-              <div class="dot"></div>
-              <div class="outline"></div>
-            </div>
-            <div class="circle">
-              <div class="dot"></div>
-              <div class="outline"></div>
-            </div>
-            <div class="circle">
-              <div class="dot"></div>
-              <div class="outline"></div>
-            </div>
-          </div>
-          <!-- Hint debajo del loader -->
-          <p class="loader-hint">Por favor espera, estamos procesando tu solicitud</p>
-        </div>
-      </div>
-    </section>
-    <!-- FIN ESTADO LOADING -->
+<!-- ESTADO LOADING -->
+<section id="banner-loading" class="state-section state-loading">
+  <div class="card_mainHomeBanner">
+    <div class="content_mainHomeBanner" style="align-items: center; position: relative;">
+      <!-- Jelly Loader -->
+      <div class="jelly"></div>
+      <svg width="0" height="0" class="jelly-maker">
+        <defs>
+          <filter id="uib-jelly-ooze">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="6.25" result="blur"></feGaussianBlur>
+            <feColorMatrix in="blur" mode="matrix"
+              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" 
+              result="ooze">
+            </feColorMatrix>
+            <feBlend in="SourceGraphic" in2="ooze"></feBlend>
+          </filter>
+        </defs>
+      </svg>
+      <!-- Hint debajo del loader -->
+      <p class="loader-hint">Por favor espera, estamos procesando tu solicitud</p>
+    </div>
+  </div>
+</section>
 
     <!-- ESTADO SECUNDARIO (CHAT) -->
     <section id="banner-secondary" class="state-section state-secondary">

@@ -179,19 +179,31 @@ async function fetchGPTResponse(prompt) {
    7. EVENTOS DE SUBMIT
 ===========================================================
 */
+// --- SUBMIT DEL INITIAL STATE ---
+// Al hacer submit en el initial state se dispara una animación específica de salida (submit-fade-out)
+// que es un 50% más rápida (1s) con un pequeño delay para que la animación finalice antes de cambiar al estado loading.
 formInitial.addEventListener('submit', (e) => {
   e.preventDefault();
   const userPrompt = promptInput.value.trim();
   if (!userPrompt) return;
-  changeState(bannerLoading).then(() => {
-    setTimeout(() => {
-      creaBurbuja('user', userPrompt);
-      handleAncientResponse(userPrompt);
-    }, 500);
-  });
+  
+  // Inicia la animación específica de salida para submit
+  animateSubmitExit();
+  
+  // Espera la duración de la animación (1s) más un delay extra (200ms) antes de cambiar el estado.
+  setTimeout(() => {
+    changeState(bannerLoading).then(() => {
+      setTimeout(() => {
+        creaBurbuja('user', userPrompt);
+        handleAncientResponse(userPrompt);
+      }, 500);
+    });
+  }, 1200);
+  
   promptInput.value = '';
 });
 
+// --- SUBMIT DEL SECONDARY STATE ---
 if (formSecondary) {
   formSecondary.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -217,23 +229,112 @@ function getActiveState() {
   return null;
 }
 
+/**
+ * Función para animar la entrada interna de los elementos del estado SECONDARY.
+ * NOTA: Esta animación se ejecutará solo si se cambia de otro estado a secondary.
+ */
+function animateSecondaryEntry() {
+  const secondaryContainer = document.querySelector('.secondary-container');
+  const secondaryOverlay = document.querySelector('.secondary-overlay');
+
+  if (secondaryContainer) {
+    secondaryContainer.classList.add('internal-fade-in');
+    secondaryContainer.addEventListener('animationend', function handler() {
+      secondaryContainer.classList.remove('internal-fade-in');
+      secondaryContainer.removeEventListener('animationend', handler);
+    });
+  }
+  if (secondaryOverlay) {
+    secondaryOverlay.classList.add('internal-fade-in');
+    secondaryOverlay.addEventListener('animationend', function handler() {
+      secondaryOverlay.classList.remove('internal-fade-in');
+      secondaryOverlay.removeEventListener('animationend', handler);
+    });
+  }
+}
+
+/**
+ * Función para animar la entrada interna de los elementos del estado INITIAL.
+ */
+function animateInitialEntry() {
+  const initialContent = document.querySelector('#banner-initial .content_mainHomeBanner');
+  if (initialContent) {
+    initialContent.classList.add('internal-fade-in');
+    initialContent.addEventListener('animationend', function handler() {
+      initialContent.classList.remove('internal-fade-in');
+      initialContent.removeEventListener('animationend', handler);
+    });
+  }
+}
+
+/**
+ * Función para animar la salida interna de los elementos del estado INITIAL (usada en transiciones generales).
+ */
+function animateInitialExit() {
+  const initialContent = document.querySelector('#banner-initial .content_mainHomeBanner');
+  if (initialContent) {
+    initialContent.classList.add('internal-fade-out');
+    initialContent.addEventListener('animationend', function handler() {
+      initialContent.classList.remove('internal-fade-out');
+      initialContent.removeEventListener('animationend', handler);
+    });
+  }
+}
+
+/**
+ * Función específica para la animación de salida al hacer submit en el initial state.
+ * Esta animación es un 50% más rápida (1s) que la animación general de salida.
+ */
+function animateSubmitExit() {
+  const initialContent = document.querySelector('#banner-initial .content_mainHomeBanner');
+  if (initialContent) {
+    initialContent.classList.add('submit-fade-out');
+    initialContent.addEventListener('animationend', function handler() {
+      initialContent.classList.remove('submit-fade-out');
+      initialContent.removeEventListener('animationend', handler);
+    });
+  }
+}
+
+/**
+ * changeState: Cambia de estado entre secciones (initial, loading, secondary).
+ * Aplica animación fade-in al nuevo contenedor y fade-out al actual.
+ * 
+ * Nota importante:
+ * - Si el nuevo estado es el mismo que el actual y es "banner-secondary", no se dispara la animación
+ *   de entrada interna (para evitar que se repita en cada submit).
+ */
 function changeState(newEl) {
   return new Promise(resolve => {
     const currentEl = getActiveState();
-    // Si ya está activo, no hacemos nada
     if (currentEl === newEl) {
+      // Si ya está activo y es secondary, no animamos de nuevo.
+      // Para el initial state podemos seguir animando si lo deseas.
+      if (newEl.id === "banner-initial") {
+        animateInitialEntry();
+      }
       resolve();
       return;
     }
-    // Inicia la animación de fade-in en el nuevo contenedor
+    // Inicia la animación de fade-in en el nuevo contenedor.
     newEl.classList.add("active", "fade-in");
     newEl.addEventListener("animationend", function enterHandler() {
       newEl.classList.remove("fade-in");
       newEl.removeEventListener("animationend", enterHandler);
+      if (newEl.id === "banner-secondary") {
+        // Al cambiar de estado a secondary (desde otro estado), se dispara la animación.
+        animateSecondaryEntry();
+      }
+      if (newEl.id === "banner-initial") {
+        animateInitialEntry();
+      }
       resolve();
     });
-    // Si existe un estado actual, iniciamos su fade-out de forma concurrente
+    // Si existe un estado actual, iniciamos su fade-out (y la animación interna en caso de ser initial).
     if (currentEl) {
+      if (currentEl.id === "banner-initial") {
+        animateInitialExit();
+      }
       currentEl.classList.add("fade-out");
       currentEl.addEventListener("animationend", function exitHandler() {
         currentEl.classList.remove("active", "fade-out");
@@ -245,13 +346,34 @@ function changeState(newEl) {
 
 /* 
 ===========================================================
-   9. CERRAR CHAT (RESET)
+   9. CERRAR CHAT (RESET) CON FADE OUT INTERNO
+===========================================================
+Se aplica fade-out a los elementos internos del estado secondary y se espera
+a que finalice la animación antes de cambiar el estado.
 ===========================================================
 */
 function resetChat() {
-  changeState(bannerInitial).then(() => {
-    messagesContainer.innerHTML = '';
-  });
+  const secondaryContainer = document.querySelector('.secondary-container');
+  const secondaryOverlay = document.querySelector('.secondary-overlay');
+
+  if (secondaryContainer) {
+    secondaryContainer.classList.add('fade-out');
+  }
+  if (secondaryOverlay) {
+    secondaryOverlay.classList.add('fade-out');
+  }
+
+  setTimeout(() => {
+    changeState(bannerInitial).then(() => {
+      messagesContainer.innerHTML = '';
+      if (secondaryContainer) {
+        secondaryContainer.classList.remove('fade-out');
+      }
+      if (secondaryOverlay) {
+        secondaryOverlay.classList.remove('fade-out');
+      }
+    });
+  }, 1500); // 1500ms = 1.5s (duración de la animación)
 }
 
 if (closeChatBtn) {
