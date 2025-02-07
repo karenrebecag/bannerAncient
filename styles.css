@@ -1,0 +1,959 @@
+/* 
+===========================================================
+   1. ESTILOS GENERALES (FUENTES, ROOT, RESET BÁSICO)
+===========================================================
+*/
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
+
+:root {
+  --color-bg1: rgb(8, 0, 0);
+  --color-bg2: rgb(0, 17, 32);
+  --color1: rgba(0, 0, 0, 0);
+  --color2: rgba(0, 0, 0, 0);
+  --color3: rgba(0, 0, 0, 0);
+  --color4: rgba(0, 0, 0, 0);
+  --color5: rgba(0, 0, 0, 0);
+  --color-interactive: 85, 91, 255;
+  --circle-size: 80%;
+  --blending: hard-light;
+  --secondary-overlay-color: rgba(0, 0, 0, 0.6); /* Filtro más oscuro */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 
+===========================================================
+   2. CONTENEDOR PRINCIPAL (UN SOLO FONDO)
+===========================================================
+*/
+#main-banner-container {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Montserrat', sans-serif;
+  position: relative; /* Para overlay */
+}
+
+/* 
+===========================================================
+   3. FONDO Y GRADIENTES
+===========================================================
+*/
+.gradient-bg_mainHomeBanner {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  background: url('https://cdn.prod.website-files.com/649345de5f3dcabcbb28c754/673ce035fd092c18da67d966_Banner_Home_Ancient%402x.png');
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+}
+
+.gradient-bg_mainHomeBanner::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  z-index: 1;
+}
+
+.noiseBg_mainHomeBanner {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  mix-blend-mode: soft-light;
+  opacity: 0.3;
+}
+
+.svgBlur_mainHomeBanner {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+.gradients-container_mainHomeBanner {
+  filter: url(#goo_mainHomeBanner) blur(40px);
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* 
+===========================================================
+   4. ANIMACIONES DE LAS ESFERAS
+===========================================================
+*/
+.g1_mainHomeBanner,
+.g2_mainHomeBanner,
+.g3_mainHomeBanner,
+.g4_mainHomeBanner,
+.g5_mainHomeBanner,
+.interactive_mainHomeBanner {
+  position: absolute;
+  left: 60%;
+  mix-blend-mode: var(--blending);
+  width: var(--circle-size);
+  height: var(--circle-size);
+  transform-origin: center;
+}
+
+@keyframes moveInCircle_mainHomeBanner {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(180deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes moveVertical_mainHomeBanner {
+  0% { transform: translateY(-50%); }
+  50% { transform: translateY(50%); }
+  100% { transform: translateY(-50%); }
+}
+@keyframes moveHorizontal_mainHomeBanner {
+  0% { transform: translateX(-50%) translateY(-10%); }
+  50% { transform: translateX(50%) translateY(10%); }
+  100% { transform: translateX(-50%) translateY(-10%); }
+}
+
+.g1_mainHomeBanner {
+  background: radial-gradient(circle, rgba(var(--color1), 0.8) 0, rgba(var(--color1), 0) 50%);
+  animation: moveVertical_mainHomeBanner 30s ease infinite;
+}
+.g2_mainHomeBanner {
+  background: radial-gradient(circle, rgba(var(--color2), 0.8) 0, rgba(var(--color2), 0) 50%);
+  animation: moveInCircle_mainHomeBanner 20s reverse infinite;
+}
+.g3_mainHomeBanner {
+  background: radial-gradient(circle, rgba(var(--color3), 0.8) 0, rgba(var(--color3), 0) 50%);
+  animation: moveInCircle_mainHomeBanner 40s linear infinite;
+}
+.g4_mainHomeBanner {
+  background: radial-gradient(circle, rgba(var(--color4), 0.8) 0, rgba(var(--color4), 0) 50%);
+  animation: moveHorizontal_mainHomeBanner 40s ease infinite;
+  opacity: 0.7;
+}
+.g5_mainHomeBanner {
+  background: radial-gradient(circle, rgba(var(--color5), 0.8) 0, rgba(var(--color5), 0) 50%);
+  animation: moveInCircle_mainHomeBanner 20s ease infinite;
+}
+.interactive_mainHomeBanner {
+  background: radial-gradient(circle, rgba(var(--color-interactive), 0.8) 0, rgba(var(--color-interactive), 0) 50%);
+  opacity: 0.7;
+}
+
+/* 
+===========================================================
+   5. ESTADOS (INITIAL, LOADING, SECONDARY)
+===========================================================
+*/
+.state-section {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease-in-out;
+}
+
+.state-section.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 
+===========================================================
+   6. CARD Y CONTENIDO
+===========================================================
+*/
+.card_mainHomeBanner {
+  position: absolute;
+  z-index: 2; 
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  user-select: none;
+  max-width: 90%;
+  min-width: 80%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.content_mainHomeBanner {
+  position: relative;
+  z-index: 2;
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  gap: 20px;
+  animation: fadeInInitial 1s ease-in-out forwards;
+
+}
+
+/* 
+===========================================================
+   7. TITULOS Y TEXTO (INICIAL)
+===========================================================
+*/
+.title_mainHomeBanner {
+  font-size: 4rem;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  text-align: start;
+  line-height: 1em;
+  margin-bottom: 16px;
+  animation: fadeInInitial 1s ease-in-out forwards;
+
+}
+
+.text-gradient {
+  background: linear-gradient(to right, #5450FF 0%, #9CAAFF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  line-height: 1.5em;
+}
+
+.text_mainHomeBanner {
+  line-height: 1.3;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.2rem;
+  text-align: start;
+  animation: fadeInInitial 1s ease-in-out forwards;
+
+}
+
+/* 
+===========================================================
+   8. FORMULARIOS E INPUTS
+===========================================================
+*/
+#chat-form,
+#chat-form-secondary {
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  margin-bottom: 20px;
+  position: relative;
+  animation: fadeInInitial 1s ease-in-out forwards;
+
+}
+
+/* Efectos fancy del input */
+#poda {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.glowancientAI,
+.darkBorderBgancientAI,
+.whiteancientAI,
+.borderancientAI {
+  max-height: 70px;
+  max-width: 314px;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  overflow: hidden;
+  z-index: -1;
+  border-radius: 12px;
+  filter: blur(3px);
+}
+
+.inputancientAI {
+  background-color: #010201;
+  border: none;
+  height: 56px;
+  border-radius: 10px;
+  color: white;
+  padding-inline: 10px;
+  font-size: 16px;
+  padding-right: 50px;   
+  box-sizing: border-box; 
+  display: block;
+  width: 70vw;
+  white-space: nowrap;
+  overflow: hidden;
+  
+}
+.inputancientAI::placeholder {
+  color: #746270;
+}
+.inputancientAI:focus {
+  outline: none;
+}
+
+@media (max-width: 768px) {
+  .inputancientAI {
+    width: 80vw;
+}
+}
+.secondary-form .inputancientAI {
+  width: 70vw !important; 
+}
+
+/* Efectos rotable */
+#main {
+  position: relative;
+}
+#input-mask {
+  pointer-events: none;
+  width: 100%;
+  height: 20px;
+  position: absolute;
+  top: 18px;
+  left: 70px;
+}
+#pink-mask {
+  opacity: 1;
+}
+#main:focus-within > #input-mask {
+  display: none;
+}
+#main:hover > #pink-mask {
+  opacity: 0;
+}
+
+/* 
+   Transiciones de las capas
+*/
+.whiteancientAI {
+  max-height: 63px;
+  max-width: 307px;
+  border-radius: 10px;
+  filter: blur(2px);
+}
+.whiteancientAI::before {
+  content: '';
+  z-index: -2;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(83deg);
+  width: 600px;
+  height: 600px;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  filter: brightness(1.4);
+  background-image: conic-gradient(
+    rgba(0,0,0,0) 0%,
+    #5450ff,
+    rgba(0,0,0,0) 8%,
+    rgba(0,0,0,0) 50%,
+    #9caaff,
+    rgba(0,0,0,0) 58%
+  );
+  transition: all 2s;
+}
+.borderancientAI {
+  max-height: 59px;
+  max-width: 303px;
+  border-radius: 11px;
+  filter: blur(0.5px);
+}
+.borderancientAI::before {
+  content: '';
+  z-index: -2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(70deg);
+  width: 600px;
+  height: 600px;
+  filter: brightness(1.3);
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-image: conic-gradient(
+    #c2ccff,
+    #757cff 5%,
+    #5450ff 14%,
+    #5450ff 50%,
+    #3f2ad8 60%,
+    #3f2ad8 64%
+  );
+  transition: all 2s;
+}
+.darkBorderBgancientAI {
+  max-height: 65px;
+  max-width: 312px;
+}
+.darkBorderBgancientAI::before {
+  content: '';
+  z-index: -2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(82deg);
+  width: 600px;
+  height: 600px;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-image: conic-gradient(
+    rgba(0,0,0,0),
+    #757cff,
+    rgba(0,0,0,0) 10%,
+    rgba(0,0,0,0) 50%,
+    #757cff,
+    rgba(0,0,0,0) 60%
+  );
+  transition: all 2s;
+}
+.glowancientAI {
+  overflow: hidden;
+  filter: blur(30px);
+  opacity: 0.4;
+  max-height: 130px;
+  max-width: 354px;
+}
+.glowancientAI::before {
+  content: '';
+  z-index: -2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(60deg);
+  width: 999px;
+  height: 999px;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-image: conic-gradient(
+    #000,
+    #757cff 5%,
+    #000 38%,
+    #000 50%,
+    #757cff 60%,
+    #000 87%
+  );
+  transition: all 2s;
+}
+
+/* Hover y focus transforms */
+#poda:hover > .darkBorderBgancientAI::before {
+  transform: translate(-50%, -50%) rotate(-98deg);
+}
+#poda:hover > .glowancientAI::before {
+  transform: translate(-50%, -50%) rotate(-120deg);
+}
+#poda:hover > .whiteancientAI::before {
+  transform: translate(-50%, -50%) rotate(-97deg);
+}
+#poda:hover > .borderancientAI::before {
+  transform: translate(-50%, -50%) rotate(-110deg);
+}
+
+#poda:focus-within > .darkBorderBgancientAI::before {
+  transform: translate(-50%, -50%) rotate(442deg);
+  transition: all 4s;
+}
+#poda:focus-within > .glowancientAI::before {
+  transform: translate(-50%, -50%) rotate(420deg);
+  transition: all 4s;
+}
+#poda:focus-within > .whiteancientAI::before {
+  transform: translate(-50%, -50%) rotate(443deg);
+  transition: all 4s;
+}
+#poda:focus-within > .borderancientAI::before {
+  transform: translate(-50%, -50%) rotate(430deg);
+  transition: all 4s;
+}
+
+.glowancientAI {
+  overflow: hidden;
+  filter: blur(30px);
+  opacity: 0.4;
+  max-height: 130px;
+  max-width: 354px;
+}
+
+.glowancientAI::before {
+  content: '';
+  z-index: -2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(60deg);
+  width: 999px;
+  height: 999px;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-image: conic-gradient(
+    #000,
+    #757cff 5%,
+    #000 38%,
+    #000 50%,
+    #757cff 60%,
+    #000 87%
+  );
+  transition: all 2s;
+}
+
+/* Botón de input */
+#filter-icon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  max-height: 40px;
+  max-width: 38px;
+  height: 100%;
+  width: 100%;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #161329, black, #1d1b4b);
+  border: none;
+  cursor: pointer;
+  color: #fff; /* Para el svg */
+}
+
+/* 
+===========================================================
+   9. LOADER (LOADING STATE)
+===========================================================
+*//* From Uiverse.io by Li-Deheng */ 
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    --color: hsl(0, 0%, 87%);
+    --animation: 2s ease-in-out infinite;
+  }
+  
+  .loader .circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border: solid 2px var(--color);
+    border-radius: 50%;
+    margin: 0 10px;
+    background-color: transparent;
+    animation: circle-keys var(--animation);
+  }
+  
+  .loader .circle .dot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: var(--color);
+    animation: dot-keys var(--animation);
+  }
+  
+  .loader .circle .outline {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    animation: outline-keys var(--animation);
+  }
+  
+  .circle:nth-child(2) {
+    animation-delay: 0.3s;
+  }
+  
+  .circle:nth-child(3) {
+    animation-delay: 0.6s;
+  }
+  
+  .circle:nth-child(4) {
+    animation-delay: 0.9s;
+  }
+  
+  .circle:nth-child(5) {
+    animation-delay: 1.2s;
+  }
+  
+  .circle:nth-child(2) .dot {
+    animation-delay: 0.3s;
+  }
+  
+  .circle:nth-child(3) .dot {
+    animation-delay: 0.6s;
+  }
+  
+  .circle:nth-child(4) .dot {
+    animation-delay: 0.9s;
+  }
+  
+  .circle:nth-child(5) .dot {
+    animation-delay: 1.2s;
+  }
+  
+  .circle:nth-child(1) .outline {
+    animation-delay: 0.9s;
+  }
+  
+  .circle:nth-child(2) .outline {
+    animation-delay: 1.2s;
+  }
+  
+  .circle:nth-child(3) .outline {
+    animation-delay: 1.5s;
+  }
+  
+  .circle:nth-child(4) .outline {
+    animation-delay: 1.8s;
+  }
+  
+  .circle:nth-child(5) .outline {
+    animation-delay: 2.1s;
+  }
+  
+  @keyframes circle-keys {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  
+    50% {
+      transform: scale(1.5);
+      opacity: 0.5;
+    }
+  
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes dot-keys {
+    0% {
+      transform: scale(1);
+    }
+  
+    50% {
+      transform: scale(0);
+    }
+  
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  @keyframes outline-keys {
+    0% {
+      transform: scale(0);
+      outline: solid 20px var(--color);
+      outline-offset: 0;
+      opacity: 1;
+    }
+  
+    100% {
+      transform: scale(1);
+      outline: solid 0 transparent;
+      outline-offset: 20px;
+      opacity: 0;
+    }
+  
+}
+
+/* 
+===========================================================
+   10. ESTADO SECUNDARIO (TRES CONTENEDORES)
+===========================================================
+*/
+/* Overlay más oscuro en secondary */
+.secondary-overlay {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--secondary-overlay-color); 
+  z-index: 2;
+  z-index: 1;
+  animation: fadeInInitial 1s ease-in-out forwards;
+
+}
+
+.secondary-container {
+  position: relative;
+  width: 100%;
+  height: 1000px;
+  display: flex;
+  flex-direction: column;
+  animation: fadeInInitial 1s ease-in-out forwards;
+
+}
+
+
+
+/* Header con botón X */
+.secondary-header {
+  flex: 0 0 auto;
+  padding: 10px;
+  position: relative; 
+  min-height: 50px;
+  animation: fadeInInitial 1s ease-in-out forwards;
+
+}
+.close-chat-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  color: #fff;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+}
+.close-chat-btn:hover {
+  opacity: 0.8;
+}
+
+/* Contenedor scrolleable */
+.secondary-content {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  animation: fadeInInitial 1s ease-in-out forwards;
+
+}
+
+/* Burbujas */
+.messages-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.chat-bubble {
+  max-width: 70%;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: #ffffff;
+  word-wrap: break-word;
+  animation: bubbleAppear 0.3s ease forwards;
+}
+@keyframes bubbleAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.chat-bubble.user {
+  align-self: flex-end;
+  border-radius: 12px 12px 0 12px;
+  background: rgb(87,84,246);
+}
+.chat-bubble.ai {
+  align-self: flex-start;
+  border-radius: 12px 12px 12px 0px;
+
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Footer con input + disclaimer */
+.secondary-footer {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 1rem;
+  background: transparent;
+}
+.secondary-form {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inputancientAI {
+    width: 70vw;
+  }
+  
+.secondary-disclaimer {
+  font-size: 0.8rem;
+  color: #ccc;
+  text-align: center;            
+  width: 80vw;
+  line-height: 1.3;
+}
+.secondary-disclaimer a {
+  color: #9caaff;
+  text-decoration: underline;
+}
+
+/* 
+===========================================================
+   11. MEDIA QUERIES Y AJUSTES DE RESPONSIVIDAD
+===========================================================
+*/
+@media (max-width: 1200px) {
+  .inputancientAI {
+    width: 70vw;
+  }
+  .title_mainHomeBanner {
+    font-size: 3.5rem;
+  }
+  .text_mainHomeBanner {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .inputancientAI {
+    width: 70vw;
+    max-width: 100%;
+  }
+  .title_mainHomeBanner {
+    font-size: 3.05rem;
+  }
+  .text_mainHomeBanner {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .title_mainHomeBanner {
+    font-size: 2.645rem;
+  }
+  .text_mainHomeBanner {
+    font-size: 0.855rem;
+  }
+  .inputancientAI {
+    width: 70vw;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 320px) {
+  .title_mainHomeBanner {
+    font-size: 2.28rem; 
+  }
+  .text_mainHomeBanner {
+    font-size: 1rem;
+  }
+  .inputancientAI {
+    width: 100%;
+    font-size: 12px;
+  }
+}
+/* ==============================================
+   FADING SUAVE (0% a 100%) PARA EL CONTENIDO INICIAL
+   ============================================== */
+   @keyframes fadeInInitial {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .initial-extra-text{
+    color: white;
+  }
+  
+  .initial-fade-in {
+    /* Aplica la animación de opacidad en 1 segundo, estilo iOS */
+    animation: fadeInInitial 0.5s ease-in-out forwards;
+  }
+  
+  /* ==============================================
+     CONTENEDOR DE ICONOS DE REDES SOCIALES
+     ============================================== */
+  .radio-inputs {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    max-width: 350px;
+    user-select: none;
+    opacity: 0;
+    animation: fadeInInitial 1.2s ease forwards;
+    animation-delay: 0.2s;
+  }
+  
+  /* Ocultamos el input radio nativo */
+  .radio-input {
+    clip: rect(0 0 0 0);
+    -webkit-clip-path: inset(100%);
+    clip-path: inset(100%);
+    height: 1px;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 1px;
+  }
+  
+  /* ==============================================
+     BOTÓN / TARJETA DEL ÍCONO
+     ============================================== */
+  .radio-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    margin-right: 20px;
+    min-height: 50px;
+    border-radius: 100rem;
+    border: 1px solid #ffffff39;
+    background-color: transparent;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    transition: 0.15s ease;
+    cursor: pointer;
+    position: relative;
+  }
+  
+  /* Eliminamos cualquier color interno de los SVG y los ponemos blancos */
+  .radio-icon svg {
+    width: 1rem;
+    height: 1rem;
+    fill: #ffffff5e !important;
+  }
+  
+  /* Estados "hover" */
+  .radio-tile:hover {
+    border-color: #ffffff;
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+  }
+  
+  /* Cuando un ícono está seleccionado, podemos resaltarlo */
+  .instagram:checked + .radio-tile,
+  .linkedin:checked + .radio-tile,
+  .facebook:checked + .radio-tile {
+    border-color: #fff;
+    background-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+  }
