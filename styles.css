@@ -1,8 +1,4 @@
-/* 
-===========================================================
-   1. ESTILOS GENERALES (FUENTES, ROOT, RESET BÁSICO)
-===========================================================
-*/
+/* 1. ESTILOS GENERALES (FUENTES, ROOT, RESET BÁSICO) */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
 
 :root {
@@ -25,24 +21,16 @@
   box-sizing: border-box;
 }
 
-/* 
-===========================================================
-   2. CONTENEDOR PRINCIPAL (UN SOLO FONDO)
-===========================================================
-*/
+/* 2. CONTENEDOR PRINCIPAL (UN SOLO FONDO) */
 #main-banner-container {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
   font-family: 'Montserrat', sans-serif;
-  position: relative; /* Para overlay */
+  position: relative;
 }
 
-/* 
-===========================================================
-   3. FONDO Y GRADIENTES
-===========================================================
-*/
+/* 3. FONDO Y GRADIENTES */
 .gradient-bg_mainHomeBanner {
   width: 100%;
   height: 100%;
@@ -93,11 +81,7 @@
   position: relative;
 }
 
-/* 
-===========================================================
-   4. ANIMACIONES DE LAS ESFERAS
-===========================================================
-*/
+/* 4. ANIMACIONES DE LAS ESFERAS */
 .g1_mainHomeBanner,
 .g2_mainHomeBanner,
 .g3_mainHomeBanner,
@@ -154,11 +138,7 @@
   opacity: 0.7;
 }
 
-/* 
-===========================================================
-   5. ESTADOS (INITIAL, LOADING, SECONDARY)
-===========================================================
-*/
+/* 5. ESTADOS (INITIAL, LOADING, SECONDARY) */
 .state-section {
   position: absolute;
   top: 0;
@@ -169,17 +149,87 @@
   pointer-events: none;
   transition: opacity 0.6s ease-in-out;
 }
-
 .state-section.active {
   opacity: 1;
   pointer-events: auto;
 }
+/* Animaciones de fade in y fade out para la transición doble estado */
+.fade-in {
+  animation: fadeIn 1.5s ease-in-out forwards;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0); }
+  to   { opacity: 1; transform: scale(1); }
+}
 
-/* 
-===========================================================
-   6. CARD Y CONTENIDO
-===========================================================
-*/
+.fade-out {
+  animation: fadeOut 1.5s ease-in-out forwards;
+}
+@keyframes fadeOut {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0); }
+}
+
+/* Estado INITIAL */
+.state-initial.enter-initial {
+  animation: initialEnter 1.5s ease-in-out forwards;
+}
+.state-initial.exit-initial {
+  animation: initialExit 1.5s ease-in-out forwards;
+}
+@keyframes initialEnter {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes initialExit {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(20px); }
+}
+
+/* Estado LOADING */
+.state-loading.enter-loading {
+  animation: loadingEnter 1.5s ease-in-out forwards;
+}
+.state-loading.exit-loading {
+  animation: loadingExit 1.5s ease-in-out forwards;
+}
+@keyframes loadingEnter {
+  from { opacity: 0; transform: scale(1.1); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes loadingExit {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0.9); }
+}
+
+/* Estado SECONDARY */
+.state-secondary.enter-secondary {
+  animation: secondaryEnter 1s ease-in-out forwards;
+}
+.state-secondary.exit-secondary {
+  animation: secondaryExit 1s ease-in-out forwards;
+}
+@keyframes secondaryEnter {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes secondaryExit {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(-20px); }
+}
+
+/* Ajuste para el loader */
+.state-loading .card_mainHomeBanner {
+  overflow: visible;
+}
+.state-loading .loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* 6. CARD Y CONTENIDO */
 .card_mainHomeBanner {
   position: absolute;
   z-index: 2; 
@@ -202,14 +252,8 @@
   text-align: start;
   gap: 20px;
   animation: fadeInInitial 1s ease-in-out forwards;
-
 }
 
-/* 
-===========================================================
-   7. TITULOS Y TEXTO (INICIAL)
-===========================================================
-*/
 .title_mainHomeBanner {
   font-size: 4rem;
   color: white;
@@ -219,7 +263,6 @@
   line-height: 1em;
   margin-bottom: 16px;
   animation: fadeInInitial 1s ease-in-out forwards;
-
 }
 
 .text-gradient {
@@ -237,14 +280,9 @@
   font-size: 1.2rem;
   text-align: start;
   animation: fadeInInitial 1s ease-in-out forwards;
-
 }
 
-/* 
-===========================================================
-   8. FORMULARIOS E INPUTS
-===========================================================
-*/
+/* 7. FORMULARIOS E INPUTS */
 #chat-form,
 #chat-form-secondary {
   display: flex;
@@ -253,24 +291,23 @@
   margin-bottom: 20px;
   position: relative;
   animation: fadeInInitial 1s ease-in-out forwards;
-
 }
 
-/* Efectos fancy del input */
 #poda {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 70vw;
 }
+
 .glowancientAI,
 .darkBorderBgancientAI,
 .whiteancientAI,
 .borderancientAI {
   max-height: 70px;
-  max-width: 314px;
   height: 100%;
-  width: 100%;
+  width: 70vw;
   position: absolute;
   overflow: hidden;
   z-index: -1;
@@ -279,24 +316,25 @@
 }
 
 .inputancientAI {
-  background-color: #010201;
+  background-color: #010201f5;
   border: none;
   height: 56px;
-  border-radius: 10px;
+  border-radius: 5px;
   color: white;
   padding-inline: 10px;
   font-size: 16px;
-  padding-right: 50px;   
-  box-sizing: border-box; 
+  padding-right: 50px;
+  box-sizing: border-box;
   display: block;
   width: 70vw;
   white-space: nowrap;
   overflow: hidden;
-  
 }
+
 .inputancientAI::placeholder {
   color: #746270;
 }
+
 .inputancientAI:focus {
   outline: none;
 }
@@ -304,13 +342,12 @@
 @media (max-width: 768px) {
   .inputancientAI {
     width: 80vw;
-}
+  }
 }
 .secondary-form .inputancientAI {
-  width: 70vw !important; 
+  width: 70vw !important;
 }
 
-/* Efectos rotable */
 #main {
   position: relative;
 }
@@ -332,9 +369,6 @@
   opacity: 0;
 }
 
-/* 
-   Transiciones de las capas
-*/
 .whiteancientAI {
   max-height: 63px;
   max-width: 307px;
@@ -477,37 +511,6 @@
   transition: all 4s;
 }
 
-.glowancientAI {
-  overflow: hidden;
-  filter: blur(30px);
-  opacity: 0.4;
-  max-height: 130px;
-  max-width: 354px;
-}
-
-.glowancientAI::before {
-  content: '';
-  z-index: -2;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(60deg);
-  width: 999px;
-  height: 999px;
-  background-repeat: no-repeat;
-  background-position: 0 0;
-  background-image: conic-gradient(
-    #000,
-    #757cff 5%,
-    #000 38%,
-    #000 50%,
-    #757cff 60%,
-    #000 87%
-  );
-  transition: all 2s;
-}
-
-/* Botón de input */
 #filter-icon {
   position: absolute;
   top: 8px;
@@ -526,24 +529,19 @@
   background: linear-gradient(180deg, #161329, black, #1d1b4b);
   border: none;
   cursor: pointer;
-  color: #fff; /* Para el svg */
+  color: #fff;
 }
 
-/* 
-===========================================================
-   9. LOADER (LOADING STATE)
-===========================================================
-*/
+/* 9. LOADER (LOADING STATE) */
 .loader {
     display: flex;
     justify-content: center;
     align-items: center;
     --color: hsl(0, 0%, 87%);
     --animation: 2s ease-in-out infinite;
-    height: auto;
-  }
-  
-  .loader .circle {
+    height: fit-content;
+}
+.loader .circle {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -555,9 +553,8 @@
     margin: 0 10px;
     background-color: transparent;
     animation: circle-keys var(--animation);
-  }
-  
-  .loader .circle .dot {
+}
+.loader .circle .dot {
     position: absolute;
     transform: translate(-50%, -50%);
     width: 10px;
@@ -565,123 +562,95 @@
     border-radius: 50%;
     background-color: var(--color);
     animation: dot-keys var(--animation);
-  }
-  
-  .loader .circle .outline {
+}
+.loader .circle .outline {
     position: absolute;
     transform: translate(-50%, -50%);
     width: 20px;
     height: 20px;
     border-radius: 50%;
     animation: outline-keys var(--animation);
-  }
-  
-  .circle:nth-child(2) {
+}
+.circle:nth-child(2) {
     animation-delay: 0.3s;
-  }
-  
-  .circle:nth-child(3) {
+}
+.circle:nth-child(3) {
     animation-delay: 0.6s;
-  }
-  
-  .circle:nth-child(4) {
+}
+.circle:nth-child(4) {
     animation-delay: 0.9s;
-  }
-  
-  .circle:nth-child(5) {
+}
+.circle:nth-child(5) {
     animation-delay: 1.2s;
-  }
-  
-  .circle:nth-child(2) .dot {
+}
+.circle:nth-child(2) .dot {
     animation-delay: 0.3s;
-  }
-  
-  .circle:nth-child(3) .dot {
+}
+.circle:nth-child(3) .dot {
     animation-delay: 0.6s;
-  }
-  
-  .circle:nth-child(4) .dot {
+}
+.circle:nth-child(4) .dot {
     animation-delay: 0.9s;
-  }
-  
-  .circle:nth-child(5) .dot {
+}
+.circle:nth-child(5) .dot {
     animation-delay: 1.2s;
-  }
-  
-  .circle:nth-child(1) .outline {
+}
+.circle:nth-child(1) .outline {
     animation-delay: 0.9s;
-  }
-  
-  .circle:nth-child(2) .outline {
+}
+.circle:nth-child(2) .outline {
     animation-delay: 1.2s;
-  }
-  
-  .circle:nth-child(3) .outline {
+}
+.circle:nth-child(3) .outline {
     animation-delay: 1.5s;
-  }
-  
-  .circle:nth-child(4) .outline {
+}
+.circle:nth-child(4) .outline {
     animation-delay: 1.8s;
-  }
-  
-  .circle:nth-child(5) .outline {
+}
+.circle:nth-child(5) .outline {
     animation-delay: 2.1s;
-  }
-  
-  @keyframes circle-keys {
+}
+@keyframes circle-keys {
     0% {
       transform: scale(1);
       opacity: 1;
     }
-  
     50% {
       transform: scale(1.5);
       opacity: 0.5;
     }
-  
     100% {
       transform: scale(1);
       opacity: 1;
     }
-  }
-  
-  @keyframes dot-keys {
+}
+@keyframes dot-keys {
     0% {
       transform: scale(1);
     }
-  
     50% {
       transform: scale(0);
     }
-  
     100% {
       transform: scale(1);
     }
-  }
-  
-  @keyframes outline-keys {
+}
+@keyframes outline-keys {
     0% {
       transform: scale(0);
       outline: solid 20px var(--color);
       outline-offset: 0;
       opacity: 1;
     }
-  
     100% {
       transform: scale(1);
       outline: solid 0 transparent;
       outline-offset: 20px;
       opacity: 0;
     }
-  
 }
 
-/* 
-===========================================================
-   10. ESTADO SECUNDARIO (TRES CONTENEDORES)
-===========================================================
-*/
-/* Overlay más oscuro en secondary */
+/* 10. ESTADO SECUNDARIO (TRES CONTENEDORES) */
 .secondary-overlay {
   content: "";
   position: absolute;
@@ -690,12 +659,9 @@
   width: 100%;
   height: 100%;
   background: var(--secondary-overlay-color); 
-  z-index: 2;
   z-index: 1;
   animation: fadeInInitial 2s ease-in-out forwards;
-
 }
-
 .secondary-container {
   position: relative;
   width: 100%;
@@ -703,19 +669,13 @@
   display: flex;
   flex-direction: column;
   animation: fadeInInitial 1s ease-in-out forwards;
-
 }
-
-
-
-/* Header con botón X */
 .secondary-header {
   flex: 0 0 auto;
   padding: 10px;
   position: relative; 
   min-height: 50px;
   animation: fadeInInitial 1s ease-in-out forwards;
-
 }
 .close-chat-btn {
   position: absolute;
@@ -731,8 +691,6 @@
 .close-chat-btn:hover {
   opacity: 0.8;
 }
-
-/* Contenedor scrolleable */
 .secondary-content {
   flex: 1 1 auto;
   overflow-y: auto;
@@ -741,16 +699,12 @@
   flex-direction: column;
   gap: 1rem;
   animation: fadeInInitial 1s ease-in-out forwards;
-
 }
-
-/* Burbujas */
 .messages-container {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
 }
-
 .chat-bubble {
   max-width: 70%;
   padding: 0.8rem 1rem;
@@ -778,11 +732,8 @@
 .chat-bubble.ai {
   align-self: flex-start;
   border-radius: 12px 12px 12px 0px;
-
   background-color: rgba(255, 255, 255, 0.1);
 }
-
-/* Footer con input + disclaimer */
 .secondary-footer {
   flex: 0 0 auto;
   display: flex;
@@ -798,12 +749,6 @@
   align-items: center;
   justify-content: center;
 }
-
-.inputancientAI {
-    width: 70vw;
-  }
- 
-  
 .secondary-disclaimer {
   font-size: 0.8rem;
   color: #ccc;
@@ -816,11 +761,7 @@
   text-decoration: underline;
 }
 
-/* 
-===========================================================
-   11. MEDIA QUERIES Y AJUSTES DE RESPONSIVIDAD
-===========================================================
-*/
+/* 11. MEDIA QUERIES Y RESPONSIVIDAD */
 @media (max-width: 1200px) {
   .inputancientAI {
     width: 70vw;
@@ -832,7 +773,6 @@
     font-size: 1.2rem;
   }
 }
-
 @media (max-width: 768px) {
   .inputancientAI {
     width: 70vw;
@@ -845,9 +785,7 @@
     font-size: 1rem;
   }
 }
-
 @media (max-width: 480px) {
-
   .title_mainHomeBanner {
     font-size: 2.645rem;
   }
@@ -859,7 +797,6 @@
     font-size: 12px;
   }
 }
-
 @media (max-width: 320px) {
   .title_mainHomeBanner {
     font-size: 2.28rem; 
@@ -872,122 +809,73 @@
     font-size: 12px;
   }
 }
-/* ==============================================
-   FADING SUAVE (0% a 100%) PARA EL CONTENIDO INICIAL
-   ============================================== */
-   @keyframes fadeInInitial {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
+@keyframes fadeInInitial {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+.initial-extra-text{
+  color: white;
+  font-size: 12px;
+}
+.initial-fade-in {
+  animation: fadeInInitial 0.5s ease-in-out forwards;
+}
+.radio-inputs {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  max-width: 350px;
+  user-select: none;
+  opacity: 0;
+  animation: fadeInInitial 1.2s ease forwards;
+  animation-delay: 0.2s;
+}
+.radio-input {
+  clip: rect(0 0 0 0);
+  -webkit-clip-path: inset(100%);
+  clip-path: inset(100%);
+  height: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 1px;
+}
+.radio-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  margin-right: 20px;
+  min-height: 50px;
+  border-radius: 100rem;
+  border: 1px solid #ffffff39;
+  background-color: transparent;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  transition: 0.15s ease;
+  cursor: pointer;
+  position: relative;
+}
+.radio-icon svg {
+  width: 1rem;
+  height: 1rem;
+  fill: #ffffff5e !important;
+}
+.radio-tile:hover {
+  border-color: #ffffff;
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+}
+.instagram:checked + .radio-tile,
+.linkedin:checked + .radio-tile,
+.facebook:checked + .radio-tile {
+  border-color: #fff;
+  background-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+}
 
-  .initial-extra-text{
-    color: white;
-  }
-  
-  .initial-fade-in {
-    /* Aplica la animación de opacidad en 1 segundo, estilo iOS */
-    animation: fadeInInitial 0.5s ease-in-out forwards;
-  }
-  
-  /* ==============================================
-     CONTENEDOR DE ICONOS DE REDES SOCIALES
-     ============================================== */
-  .radio-inputs {
-    display: flex;
-    justify-content: start;
-    align-items: start;
-    max-width: 350px;
-    user-select: none;
-    opacity: 0;
-    animation: fadeInInitial 1.2s ease forwards;
-    animation-delay: 0.2s;
-  }
-  
-  /* Ocultamos el input radio nativo */
-  .radio-input {
-    clip: rect(0 0 0 0);
-    -webkit-clip-path: inset(100%);
-    clip-path: inset(100%);
-    height: 1px;
-    overflow: hidden;
-    white-space: nowrap;
-    width: 1px;
-  }
-  
-  /* ==============================================
-     BOTÓN / TARJETA DEL ÍCONO
-     ============================================== */
-  .radio-tile {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 50px;
-    margin-right: 20px;
-    min-height: 50px;
-    border-radius: 100rem;
-    border: 1px solid #ffffff39;
-    background-color: transparent;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-    transition: 0.15s ease;
-    cursor: pointer;
-    position: relative;
-  }
-  
-  /* Eliminamos cualquier color interno de los SVG y los ponemos blancos */
-  .radio-icon svg {
-    width: 1rem;
-    height: 1rem;
-    fill: #ffffff5e !important;
-  }
-  
-  /* Estados "hover" */
-  .radio-tile:hover {
-    border-color: #ffffff;
-    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
-  }
-  
-  /* Cuando un ícono está seleccionado, podemos resaltarlo */
-  .instagram:checked + .radio-tile,
-  .linkedin:checked + .radio-tile,
-  .facebook:checked + .radio-tile {
-    border-color: #fff;
-    background-color: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
-  }
-
-
-
-@keyframes shrinkIn {
-    0% {
-        transform: scale(1.2);
-        opacity: 0;
-      }
-      100% {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
-    
-    @keyframes shrinkOut {
-      0% {
-        transform: scale(1);
-        opacity: 1;
-      }
-      100% {
-        transform: scale(0.8);
-        opacity: 0;
-      }
-    }
-    
-    .shrink-in {
-      animation: shrinkIn 0.5s ease-out forwards;
-    }
-    
-    .shrink-out {
-      animation: shrinkOut 0.5s ease-in forwards;
-    }
+/* Loader hint styling */
+.loader-hint {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #fff;
+  text-align: center;
+}

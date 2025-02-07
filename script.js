@@ -4,7 +4,7 @@
 ===========================================================
 */
 const ANCIENT_ENDPOINT_URL = 'https://ancient.app.n8n.cloud/webhook/84e653aa-65b2-49c0-9a12-4a86256b4744';
-const GPT_FALLBACK_URL = 'https://hook.us2.make.com/pdfv8gwculdpuw3pyl82x33mput2gj73'; // Fallback a GPT
+const GPT_FALLBACK_URL = 'https://hook.us2.make.com/pdfv8gwculdpuw3pyl82x33mput2gj73';
 
 let selectedLanguage = window.location.pathname.includes("/en") ? "en" : "es";
 
@@ -40,29 +40,26 @@ const bannerInitial = document.getElementById('banner-initial');
 const bannerLoading = document.getElementById('banner-loading');
 const bannerSecondary = document.getElementById('banner-secondary');
 
-// Formularios e inputs
-const formInitial = document.querySelector('#chat-form');
-const promptInput = document.querySelector('#prompt');
+const formInitial = document.getElementById('chat-form');
+const promptInput = document.getElementById('prompt');
+
 const formSecondary = document.getElementById('chat-form-secondary');
 const promptInputSecondary = document.getElementById('prompt-secondary');
 
-// Contenedor de mensajes (estado secondary)
 const messagesContainer = document.getElementById('messages');
-
-// Botón para cerrar el chat
 const closeChatBtn = document.getElementById('close-chat-btn');
 
 /* 
 ===========================================================
-   3. FUNCIONES AUXILIARES: SONIDO DE MENSAJE
+   3. FUNCIONES AUXILIARES: SONIDO DE MENSAJE (DESHABILITADO)
 ===========================================================
 */
 function playMessageSound() {
-    // Creamos un nuevo objeto Audio cada vez para asegurar que se reproduzca
-    const audio = new Audio('https://static.wixstatic.com/mp3/bc0394_f09c7b0a29174d308f1aef45b8c09a26.mp3');
-    audio.volume = 0.5;
-    audio.play();
-  }
+  // Sonido deshabilitado.
+  // const audio = new Audio('https://static.wixstatic.com/mp3/bc0394_f09c7b0a29174d308f1aef45b8c09a26.mp3');
+  // audio.volume = 0.1;
+  // audio.play();
+}
 
 /* 
 ===========================================================
@@ -75,7 +72,6 @@ function creaBurbuja(role, message) {
   bubble.textContent = message;
   messagesContainer.appendChild(bubble);
   messagesContainer.scrollTop = messagesContainer.scrollHeight;
-  // Reproducir sonido al agregar el mensaje
   playMessageSound();
 }
 
@@ -84,7 +80,6 @@ function creaBurbujaConTypewriter(text) {
   bubble.classList.add('chat-bubble', 'ai');
   messagesContainer.appendChild(bubble);
   messagesContainer.scrollTop = messagesContainer.scrollHeight;
-  // Reproducir sonido al agregar el mensaje del assistant
   playMessageSound();
   typeWriter(bubble, text);
 }
@@ -111,7 +106,6 @@ function typeWriter(element, text) {
 function creaLoaderBubble() {
   const loaderBubble = document.createElement('div');
   loaderBubble.classList.add('chat-bubble', 'ai', 'loader-bubble');
-  // Se crean tres puntitos
   for (let i = 0; i < 3; i++) {
     const dot = document.createElement('div');
     dot.classList.add('dot-typing');
@@ -189,7 +183,6 @@ formInitial.addEventListener('submit', (e) => {
   e.preventDefault();
   const userPrompt = promptInput.value.trim();
   if (!userPrompt) return;
-  // Cambia al estado loading y luego procesa la petición
   changeState(bannerLoading).then(() => {
     setTimeout(() => {
       creaBurbuja('user', userPrompt);
@@ -212,10 +205,11 @@ if (formSecondary) {
 
 /* 
 ===========================================================
-   8. TRANSICIONES CON TIMELINE (PROMESAS)
+   8. TRANSICIONES CON ANIMACIONES (DOBLE ESTADO)
+===========================================================
+Se mantiene el contenedor actual visible mientras el nuevo aparece.
 ===========================================================
 */
-// Devuelve el contenedor actualmente activo (con la clase "active")
 function getActiveState() {
   if (bannerInitial.classList.contains("active")) return bannerInitial;
   if (bannerLoading.classList.contains("active")) return bannerLoading;
@@ -223,53 +217,29 @@ function getActiveState() {
   return null;
 }
 
-// Aplica la animación de salida ("shrink out") y devuelve una promesa
-function animateHide(el) {
-  return new Promise(resolve => {
-    if (!el) {
-      resolve();
-      return;
-    }
-    el.classList.add("shrink-out");
-    el.addEventListener("animationend", function handler(e) {
-      if (e.animationName === "shrinkOut") {
-        el.classList.remove("active", "shrink-out");
-        el.removeEventListener("animationend", handler);
-        resolve();
-      }
-    });
-  });
-}
-
-// Aplica la animación de entrada ("shrink in") y devuelve una promesa
-function animateShow(el) {
-  return new Promise(resolve => {
-    if (!el) {
-      resolve();
-      return;
-    }
-    // Reinicia clases y fuerza reflow para reiniciar la animación
-    el.classList.remove("shrink-out", "shrink-in", "active");
-    void el.offsetWidth; // Forzar reflow
-    el.classList.add("active", "shrink-in");
-    el.addEventListener("animationend", function handler(e) {
-      if (e.animationName === "shrinkIn") {
-        el.classList.remove("shrink-in");
-        el.removeEventListener("animationend", handler);
-        resolve();
-      }
-    });
-  });
-}
-
-// Función que realiza la transición completa: oculta el estado actual y muestra el nuevo
 function changeState(newEl) {
-  const currentEl = getActiveState();
-  if (currentEl === newEl) {
-    return Promise.resolve();
-  }
-  return animateHide(currentEl).then(() => {
-    return animateShow(newEl);
+  return new Promise(resolve => {
+    const currentEl = getActiveState();
+    // Si ya está activo, no hacemos nada
+    if (currentEl === newEl) {
+      resolve();
+      return;
+    }
+    // Inicia la animación de fade-in en el nuevo contenedor
+    newEl.classList.add("active", "fade-in");
+    newEl.addEventListener("animationend", function enterHandler() {
+      newEl.classList.remove("fade-in");
+      newEl.removeEventListener("animationend", enterHandler);
+      resolve();
+    });
+    // Si existe un estado actual, iniciamos su fade-out de forma concurrente
+    if (currentEl) {
+      currentEl.classList.add("fade-out");
+      currentEl.addEventListener("animationend", function exitHandler() {
+        currentEl.classList.remove("active", "fade-out");
+        currentEl.removeEventListener("animationend", exitHandler);
+      });
+    }
   });
 }
 
@@ -285,9 +255,7 @@ function resetChat() {
 }
 
 if (closeChatBtn) {
-  closeChatBtn.addEventListener('click', () => {
-    resetChat();
-  });
+  closeChatBtn.addEventListener('click', resetChat);
 }
 
 /* 
@@ -296,7 +264,7 @@ if (closeChatBtn) {
 ===========================================================
 */
 function updateContent() {
-  for (let key in translations) {
+  for (const key in translations) {
     const dataKeyElements = document.querySelectorAll(`[data-key="${key}"]`);
     dataKeyElements.forEach(el => {
       el.textContent = translations[key][selectedLanguage];
@@ -317,5 +285,6 @@ updateContent();
 ===========================================================
    11. AL CARGAR, MOSTRAR EL ESTADO INICIAL
 ===========================================================
+Se llama a changeState para activar y animar el estado initial.
 */
 changeState(bannerInitial);
