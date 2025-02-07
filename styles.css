@@ -16,7 +16,7 @@
   --color-interactive: 85, 91, 255;
   --circle-size: 80%;
   --blending: hard-light;
-  --secondary-overlay-color: rgba(0, 0, 0, 0.6); /* Filtro más oscuro */
+  --secondary-overlay-color: rgba(0, 0, 0, 0.6); 
 }
 
 * {
@@ -533,13 +533,14 @@
 ===========================================================
    9. LOADER (LOADING STATE)
 ===========================================================
-*//* From Uiverse.io by Li-Deheng */ 
+*/
 .loader {
     display: flex;
     justify-content: center;
     align-items: center;
     --color: hsl(0, 0%, 87%);
     --animation: 2s ease-in-out infinite;
+    height: auto;
   }
   
   .loader .circle {
@@ -559,8 +560,8 @@
   .loader .circle .dot {
     position: absolute;
     transform: translate(-50%, -50%);
-    width: 16px;
-    height: 16px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background-color: var(--color);
     animation: dot-keys var(--animation);
@@ -691,7 +692,7 @@
   background: var(--secondary-overlay-color); 
   z-index: 2;
   z-index: 1;
-  animation: fadeInInitial 1s ease-in-out forwards;
+  animation: fadeInInitial 2s ease-in-out forwards;
 
 }
 
@@ -801,6 +802,7 @@
 .inputancientAI {
     width: 70vw;
   }
+ 
   
 .secondary-disclaimer {
   font-size: 0.8rem;
@@ -957,3 +959,35 @@
     background-color: rgba(255, 255, 255, 0.08);
     box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
   }
+
+
+
+@keyframes shrinkIn {
+    0% {
+        transform: scale(1.2);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes shrinkOut {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+    }
+    
+    .shrink-in {
+      animation: shrinkIn 0.5s ease-out forwards;
+    }
+    
+    .shrink-out {
+      animation: shrinkOut 0.5s ease-in forwards;
+    }
