@@ -283,7 +283,7 @@
 #chat-form,
 #chat-form-secondary {
   display: flex;
-  align-items: start;
+  align-items: center;
   justify-content: center;
   margin-bottom: 20px;
   position: relative;
@@ -340,8 +340,9 @@
     width: 80vw;
   }
 }
-.secondary-form .inputancientAI {
-  width: 70vw !important;
+.secondary-form #main {
+  width: 100vw !important;
+  justify-content: center;
 }
 
 #main {
@@ -729,6 +730,7 @@
 }
 .secondary-footer {
   flex: 0 0 auto;
+  justify-content: center;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -785,10 +787,11 @@
   .text_mainHomeBanner {
     font-size: 0.855rem;
   }
-  .inputancientAI {
+  #main {
     width: 70vw;
     font-size: 12px;
   }
+
 }
 @media (max-width: 320px) {
   .title_mainHomeBanner {
@@ -1028,6 +1031,7 @@
 }
 /* Media Queries */
 @media (min-width: 1200px) {
+
   .title_mainHomeBanner {
     font-size: 4rem;
   }
@@ -1044,6 +1048,7 @@
   }
 }
 @media (min-width: 768px) {
+
   .title_mainHomeBanner {
     font-size: 3.05rem;
   }
@@ -1056,6 +1061,7 @@
   }
 }
 @media (min-width: 480px) {
+
   .title_mainHomeBanner {
     font-size: 2.645rem;
   }
@@ -1065,5 +1071,16 @@
   .inputancientAI {
     width: 70vw;
     font-size: 14px;
+  }
+}
+
+@media (min-width: 1920px) {
+  #banner-initial .content_mainHomeBanner {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;      
+    justify-content: center; 
+    text-align: center;       
   }
 }

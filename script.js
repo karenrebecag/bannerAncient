@@ -10,12 +10,12 @@ let selectedLanguage = window.location.pathname.includes("/en") ? "en" : "es";
 
 const translations = {
   titlePart1: {
-    es: "Soluciones impulsadas por IA para ",
-    en: "AI-Powered Solutions for a "
+    es: "Soluciones impulsadas por IA <br> para ",
+    en: "AI-Powered Solutions <br> for a "
   },
   titlePart2: {
     es: "un futuro más inteligente",
-    en: "Smarter Future"
+    en: "a smarter future"
   },
   descriptionMainBanner: {
     es: "Desplegando software de vanguardia que transforma industrias, impulsa el progreso y redefine el mañana.",
@@ -30,6 +30,7 @@ const translations = {
     en: "An error occurred. Please try again."
   }
 };
+
 
 /* 
 ===========================================================
@@ -381,15 +382,16 @@ if (closeChatBtn) {
 }
 
 /* 
+/* 
 ===========================================================
-   10. TRADUCCIÓN AUTOMÁTICA
+   10. TRADUCCIÓN AUTOMÁTICA 
 ===========================================================
 */
 function updateContent() {
   for (const key in translations) {
     const dataKeyElements = document.querySelectorAll(`[data-key="${key}"]`);
     dataKeyElements.forEach(el => {
-      el.textContent = translations[key][selectedLanguage];
+      el.innerHTML = translations[key][selectedLanguage]; // Se cambia textContent por innerHTML
     });
     if (key === "promptPlaceholder") {
       if (promptInput) {
